@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 16px;
+  }
+  
+  header {
+    background-color: darkblue;
+    border-bottom: 1px solid #ccc;
+    color: #fff;
+  }
+  
+  main {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  h2{
+    font-size:16px;
+    text-align: center;
+
+  }
+  
+  /* p {
+    font-size: 100%;
+    text-align: center;
+    border-bottom: 1px solid #fff;
+    height: 100px;
+  } */
+  
+  /* ul {
+    padding: 0;
+    border-top: 1px solid #000000;
+    display: table;
+    /* 定義 */
+    /* table-layout: fixed;
+    width: 100%; */
+  /*} */
+  
+  /* li {
+    text-align: center;
+    list-style-type: none;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display: table-cell;
+    /* 定義 */
+    /*cursor: pointer;
+  } */
+  
+  /* li:hover {
+    background: #0066CC;
+    color: #fff;
+  } */
+  textarea{
+    margin: 3%;
+    width: 30%;
+    height: 30px;
+    font-size:50%;
+    box-shadow: 3px 3px 3px 3px #555;
+  }
+
+  ul#rakutenItem {
+    list-style: none;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 40px;
+
+}
+
+ul#rakutenItem li {
+    width: calc(33% - 20px);
+}
+ul#rakutenItem li a {
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 0 3px 0 rgb(0 0 0 / 12%), 0 2px 3px 0 rgb(0 0 0 / 22%);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    height: 100%;
+    padding-bottom: 12px;
+    position: relative;
+}
+ul#rakutenItem li a:hover {
+    box-shadow: 0 15px 30px -5px rgb(0 0 0 / 15%), 0 0 5px rgb(0 0 0 / 10%);
+    transform: translateY(-4px);
+}
+
+ul#rakutenItem p {
+    color: #313131;
+    margin: 0;
+}
+
+/* 画像 */
+ul#rakutenItem li a img {
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 3px 3px 0 0;
+}
+/* ショップ名 */
+.shopname {
+    padding-left: 15px;
+    font-size: 0.7rem;
+    color: #707070;
+}
+/* 商品名 */
+p.productName {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    flex-grow: 1;
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 1.5;
+}
+
+/* 価格 */
+p.productPrice {
+    font-family: Speedee, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.02rem;
+    padding-left: 15px;
+    padding-right: 10px;
+    text-align: right;
+    color: #D80C18 !important;
+}
+p.productPrice span {
+    font-size: 1rem;
+    margin-left: 3px;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 767px) {
+/* （ここにモバイル用スタイルを記述） */
+  ul#rakutenItem li {
+      width: 100%;
+  }
+}
+  
+#order {
+    width:100px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    flex-grow: 1;
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 1.5;
+    
+}
+
+
+
+  
+  
+  

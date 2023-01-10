@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="CSS/sample.css">
+
+<title>おみやげ注文</title>
+</head>
+<body>
+
+  <header>
+    <h1>おみやげ注文</h1>
+  </header>
+    
+
+  <main>
+   <h2>あなたの注文</h2>
+   <div>
+    名前：<span id = "uname"></span><br>
+    <img src="" id = "prof">
+  </div>
+  <div>
+    <button id ="out">ログアウト</button>
+    <h1 id = "status">Login...</h1>
+  </div>
+    <button class = "table">表示</button>
+    <div id = "order"></div>
+  </main>
+  
+  <script src="JS/jquery-3.5.1.min.js"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+    import { getDatabase, ref, push, set, onValue, onChildAdded, remove, onChildRemoved }
+      from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-database.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
+            from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+  
+      // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "#",
+      authDomain: "omiyage-demo.firebaseapp.com",
+      databaseURL: "https://omiyage-demo-default-rtdb.firebaseio.com",
+      projectId: "omiyage-demo",
+      storageBucket: "omiyage-demo.appspot.com",
+      messagingSenderId: "111421635692",
+      appId: "1:111421635692:web:6ad1a003056c74da892c49",
+      measurementId: "G-SSH7HCCSFJ"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+      const db = getDatabase(app); // RealtimeDBに接続
+      
+       // GoogleAuth(認証用)
+       const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      const auth = getAuth();
+      // 認証していれば処理します
+      onAuthStateChanged(auth,(user) =>{
+        if(user){
+          const uid = user.uid;
+          if (user !== null){
+            user.providerData.forEach((profile) => {
+              $("#uname").text(profile.displayName);
+              $("#prof").attr("src",profile.photoURL);
+              console.log("Sign-in provider: " + profile.providerId);
+              console.log("Provider-specific UID: "+profile.uid);
+              console.log("Email: "+ profile.email);
+              console.log("Photo URL: "+profile.photoURL);
+            });
+          $("#status").fadeOut(500);
+        }
+        // データ呼び出し
+          $(function(){
+            $('.table').on('click', function(){
+                const dbRef = ref(db, "items"); // RealtimeDB内の"items"を使う
+            //   データを取得
+            onChildAdded(dbRef,function(data){
+                console.log(data);//書き足したdebug用の一行
+                const order = data.val();
+                const key = data.key;
+                const itemCode = data.users.uid.item.itemCode;
+              $.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?', {
+                applicationId: "1001061738017445359",
+                itemCode: itemCode,
+              },function(data){
+                const items = data.Items
+                  for (let i = 0; i < items.length; i++) {
+                      console.log(items[i].itemName);
+                      let h = '<p ';
+                        h += 'data-id="';
+                        h += key;
+                        h += '" >';
+                        h += items[i].itemName;
+                        h += '</p>';
+                        $("#order").append(h);
+
+                  };
+              });
+
+            });    
+                })      
+        });
+  
+      
+        }else{
+          _redirect(); //User is Signed out
+        }
+      })
+  
+      // logout処理
+      $("#out").on("click",function(){
+        signOut(auth).then(()=>{
+        _redirect();
+      }).catch((error)=>{
+        console.error(error)
+      });
+      });
+  
+      // リダイレクト
+      function _redirect(){
+        location.href="login.html";
+      };
+  
+  
+  
+      
+  
+  
+  
+  // $("#readbook").on("click", function(){
+  //   const keyword = document.getElementById('keyword');
+  //   console.log(keyword.value);
+  //   $.get(`https://www.googleapis.com/books/v1/volumes?q=${keyword.value}`, function(data){
+  //     console.log(data);
+  //     const items = data.items
+  //     for(let i = 0; i < items.length; i++){
+  //       console.log(items[i].volumeInfo.title);
+  //       console.log(items[i].volumeInfo.publisher);
+  //       console.log(items[i].volumeInfo.infoLink);
+  //       // if((items[i].volumeInfo.publisher)== undefined){
+  //       // let publisher = 'null';}
+  //       // else{
+  //       //   let publisher = items[i].volumeInfo.publisher;
+  //       // };
+  //     $("#content").append(`<ul><li class = "${items[i].id}">${items[i].volumeInfo.title}/${items[i].volumeInfo.publisher}
+  //       </li></ul><a class = "btn" href="${items[i].volumeInfo.infoLink}">link</a>`)
+  //     let id = items[i].id
+  //     let link = items[i].volumeInfo.infoLink
+  //     $(this).on('click','link',function() {
+  //     window.open(`${items.volumeInfo.infoLink}`)
+  //     });
+  //   }
+  // });
+  // });
+  
+  // $.get() を使う[終了]
+  
+  </script>
+  </body>
+</html>
